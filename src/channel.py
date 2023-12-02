@@ -14,11 +14,40 @@ class Channel:
         self.channel_id = channel_id
         self.get_channel_info()
 
+    def __str__(self):
+        """Магия str"""
+        return f"{self.title} ({self.url})"
+
+    def __add__(self, other):
+        """Магия +"""
+        return self.subscribers + other.subscribers
+
+    def __sub__(self, other):
+        """Магия -"""
+        return self.subscribers - other.subscribers
+
+    def __lt__(self, other):
+        """Магия <"""
+        return self.subscribers < other.subscribers
+
+    def __le__(self, other):
+        """Магия <="""
+        return self.subscribers <= other.subscribers
+
+    def __gt__(self, other):
+        """Магия >"""
+        return self.subscribers > other.subscribers
+
+    def __ge__(self, other):
+        """Магия >="""
+        return self.subscribers >= other.subscribers
+
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
         print(json.dumps(self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()))
 
     def get_channel_info(self):
+        """Получение инфо о канале"""
         youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=self.api_key)
         request = youtube.channels().list(part="snippet,statistics", id=self.channel_id)
         response = request.execute()
@@ -36,10 +65,12 @@ class Channel:
 
     @classmethod
     def get_service(cls):
+        """Возврат объекта для работы с API YT"""
         api_key = os.getenv('YT_API_KEY')
         return build("youtube", "v3", developerKey=api_key)
 
     def to_json(self, filename):
+        """Конверт в json"""
         data = {
             "id": self.id,
             "title": self.title,
