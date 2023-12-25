@@ -21,7 +21,7 @@ class Video:
 
     def __str__(self):
         """Магия для юзера"""
-        return f"{self.title}"
+        return self.title
 
 
 class PLVideo(Video):
@@ -30,7 +30,3 @@ class PLVideo(Video):
         super().__init__(video_id)
         self.playlist_id = playlist_id
 
-
-    def __str__(self):
-        """"Магия для юзера"""
-        return f"{self.title}"
